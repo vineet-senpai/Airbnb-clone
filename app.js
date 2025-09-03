@@ -31,7 +31,7 @@ app.get('/',(req,res)=>{
 
 app.get('/Airbnb/Home',async(req,res)=>{
     let allListings=await Listing.find();
-    res.render('Airbnb.ejs',{allListings});
+    res.render('home.ejs',{allListings});
 })
 
 app.get('/Airbnb/:id',async(req,res)=>{
