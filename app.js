@@ -4,6 +4,7 @@ const path=require('path');
 const mongoose=require('mongoose');
 const Listing=require('./models/listing.js');
 const port=8080;
+const key='getAccess101';
 
 app.set('views',path.join(__dirname,'views'));
 app.set('view engine','ejs');
@@ -37,7 +38,18 @@ app.get('/Airbnb/Home',async(req,res)=>{
 app.get('/Airbnb/:id',async(req,res)=>{
     const{id}=req.params;
     const data=await Listing.findById(id);
-    res.render('show.ejs',{data});
+    res.render('view.ejs',{allData});
+})
+
+app.post('/Airbnb/:id',(req,res)=>{
+    const{confirmId}=req.body;
+    const{id}=req.params;
+    const data=Listing.findById(id).lean();
+    if(confirmId==key){
+        res.render('edit.ejs',{data});
+    }else{
+        throw new expressError(403,'Access Denied , Only Admin Page');
+    }
 })
 
 app.get('/Airbnb/new',(req,res)=>{

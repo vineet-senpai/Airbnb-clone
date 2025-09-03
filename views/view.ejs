@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/navbar.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">R</div>
+                <h1>RenderLoft</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#listings">All Listings</a></li>
+                <li><a href="#host">Airbnb your Home</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+        <% for(data of allData){ %>
+            <div class="showData">
+                <h2><%= data.title %></h2>
+                <div class="data-content">
+                    <img src=<%= data.img %> alt=<%= data.title %>>
+                    <div class="data-details">
+                        <h4 class="data-description"><%= data.description %></h4>
+                        <p class="data-price"><span class="currency">₹</span><%= data.price %></p>
+                        <p class="data-price"><%= data.location %></p>
+                        <p class="data-price"><%= data.country %></p>
+                    </div>
+                </div>
+                <button class="edit">Edit</button>
+                <button class="delete">Delete</button>
+            </div>
+        <% } %>
+</body>
+</html>
