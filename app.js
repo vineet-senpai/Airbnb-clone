@@ -26,19 +26,22 @@ async function connectDB(){
     await mongoose.connect('mongodb://127.0.0.1:27017/wonderLust');
 }
 
+//Root path
 app.get('/',(req,res)=>{
     res.send('Root Path');
 })
 
+//Home route
 app.get('/Airbnb/Home',async(req,res)=>{
     let allListings=await Listing.find();
     res.render('home.ejs',{allListings});
 })
 
-app.get('/Airbnb/:id',async(req,res)=>{
+//Show Route
+app.get('/Airbnb/:id/show',async(req,res)=>{
     const{id}=req.params;
-    const data=await Listing.findById(id);
-    res.render('view.ejs',{allData});
+    const data=await Listing.findById(id).lean();
+    res.render('view.ejs',{...data});
 })
 
 app.post('/Airbnb/:id',(req,res)=>{
@@ -52,6 +55,7 @@ app.post('/Airbnb/:id',(req,res)=>{
     }
 })
 
+//New Route
 app.get('/Airbnb/new',(req,res)=>{
     res.render('new.ejs');
 })

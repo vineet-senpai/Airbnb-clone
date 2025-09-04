@@ -25,6 +25,7 @@
     <div class="container">
         <h2 class="page-title">All Listings</h2>
         <% for(list of allListings){ %>
+            <a href="http://localhost:8080/Airbnb/<%= list.id %>/show">
             <div class="listings-grid">
                 <div class="listing-card">
                     <img src= <%= list.image %> alt=<%= list.title %> class="listing-image">
@@ -34,6 +35,7 @@
                     </div>
                 </div>
             </div>
+            </a>
         <% } %>
     </div>
     <script>
