@@ -4,7 +4,8 @@ const path=require('path');
 const mongoose=require('mongoose');
 const Listing=require('./models/listing.js');
 const port=8080;
-const key='getAccess101';
+const ADMIN_KEY='getAccess101';
+const key_validation=false;
 
 app.set('views',path.join(__dirname,'views'));
 app.set('view engine','ejs');
@@ -26,7 +27,7 @@ async function connectDB(){
     await mongoose.connect('mongodb://127.0.0.1:27017/wonderLust');
 }
 
-//Root path
+// Root path
 app.get('/',(req,res)=>{
     res.send('Root Path');
 })
@@ -37,23 +38,43 @@ app.get('/Airbnb/Home',async(req,res)=>{
     res.render('home.ejs',{allListings});
 })
 
-//Show Route
+// Show Route
 app.get('/Airbnb/:id/show',async(req,res)=>{
     const{id}=req.params;
     const data=await Listing.findById(id).lean();
     res.render('view.ejs',{...data});
 })
 
-app.post('/Airbnb/:id',(req,res)=>{
-    const{confirmId}=req.body;
-    const{id}=req.params;
-    const data=Listing.findById(id).lean();
-    if(confirmId==key){
-        res.render('edit.ejs',{data});
+// Admin route
+app.get('/Airbnb/admin',(req,res)=>{
+    if(key_validation){
+        key_validation=false;
+        res.send('This is Admin Page');
     }else{
-        throw new expressError(403,'Access Denied , Only Admin Page');
+        res.send('you failed');
     }
 })
+
+// app.post('/Airbnb/:id',(req,res)=>{
+//     const{confirmId}=req.body;
+//     const{id}=req.params;
+//     const data=Listing.findById(id).lean();
+//     if(confirmId==key){
+//         res.render('edit.ejs',{data});
+//     }else{
+//         throw new expressError(403,'Access Denied , Only Admin Page');
+//     }
+// })
+
+app.post('/Airbnb/admin/verify-key', (req, res) => {
+    const { key } = req.body;
+    if (key === ADMIN_KEY) {  // or check in database
+        key_validation=true;
+        res.json({ success: true });
+    } else {
+        res.json({ success: false });
+    }
+});
 
 //New Route
 app.get('/Airbnb/new',(req,res)=>{
