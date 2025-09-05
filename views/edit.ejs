@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDIT LISTING</title>
+    <link rel="stylesheet" href="/new.css">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <div class="logo-circle">A</div>
+            <span>RenderLeaf</span>
+        </div>
+        <div class="college-logo">APNA<br>COLLEGE</div>
+    </div>
+
+    <nav class="nav">
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">All Listings</a>
+            <a href="#">Airbnb your Home</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="form-container">
+            <h1>Edit Your Place</h1>
+            
+            <form method="POST" action="http://www.localhost:8080/Airbnb/<%= _id %>?_method=PUT">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" id="title" value="<%= title %>">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description"><%= description %></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="image-link">Image Link</label>
+                    <input type="text" id="image-link" name="image" value="<%= image %>">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <div class="currency-input">
+                            <input type="number" id="price" name="price" value="<%= price %>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <input type="text" id="country" name="country" value="<%= country %>">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location" value="<%= location %>">
+                </div>
+
+                <button type="submit" class="submit-btn">Add New Listing</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

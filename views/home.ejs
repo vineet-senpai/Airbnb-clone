@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Airbnb</title>
-    <link rel="stylesheet" href="/navbar.css">
     <link rel="stylesheet" href="/home.css">
 </head>
 <body>
@@ -38,6 +37,9 @@
             </a>
         <% } %>
     </div>
+    <form action="http://www.localhost:8080/Airbnb/new" method="GET">
+        <button class="newlist" type="submit">Host new listing</button>
+    </form>
     <script>
         // Add smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {

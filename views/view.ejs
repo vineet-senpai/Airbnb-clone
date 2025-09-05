@@ -40,13 +40,17 @@
                 <p class="property-country"><%= country %></p>
                 
                 <div class="action-buttons">
-                    <button class="btn btn-primary editBtn">Edit</button>
-                    <button class="btn btn-secondary">Delete</button>
+                    <form action="http://localhost:8080/Airbnb/<%= _id %>/edit" method="get">
+                        <button class="btn btn-primary editBtn">Edit</button>
+                    </form>
+                    <form action="http://localhost:8080/Airbnb/<%= _id %>?_method=DELETE" method="post">
+                        <button class="btn btn-secondary">Delete</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
     
-    <script src="/confirm.js"></script>
+    <!-- <script src="/confirm.js"></script> -->
 </body>
 </html>

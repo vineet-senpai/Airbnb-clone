@@ -2,6 +2,7 @@ const express=require('express');
 const app=express();
 const path=require('path');
 const mongoose=require('mongoose');
+const methodOverride=require('method-override')
 const Listing=require('./models/listing.js');
 const port=8080;
 const ADMIN_KEY='getAccess101';
@@ -11,9 +12,10 @@ app.set('views',path.join(__dirname,'views'));
 app.set('view engine','ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({extended:true}));
+app.use(methodOverride('_method'));
 
-class resort{
-    constructor(title,description,image,price,location,country){
+class createListing{
+    constructor({title,description,image,price,location,country}){
         this.title=title;
         this.description=description;
         this.image=image;
@@ -55,6 +57,19 @@ app.get('/Airbnb/admin',(req,res)=>{
     }
 })
 
+// Edit/Update Route
+app.get('/Airbnb/:id/edit',async(req,res)=>{
+    const{id}=req.params;
+    const data=await Listing.findById(id).lean();
+    res.render('edit.ejs',{...data});
+})
+
+app.put('/Airbnb/:id',async(req,res)=>{
+    const{id}=req.params;
+    await Listing.findByIdAndUpdate(id,{...req.body});
+    res.redirect('/Airbnb/Home');
+})
+
 // app.post('/Airbnb/:id',(req,res)=>{
 //     const{confirmId}=req.body;
 //     const{id}=req.params;
@@ -66,6 +81,7 @@ app.get('/Airbnb/admin',(req,res)=>{
 //     }
 // })
 
+// Verify-Key
 app.post('/Airbnb/admin/verify-key', (req, res) => {
     const { key } = req.body;
     if (key === ADMIN_KEY) {  // or check in database
@@ -76,9 +92,22 @@ app.post('/Airbnb/admin/verify-key', (req, res) => {
     }
 });
 
-//New Route
+// New Route
 app.get('/Airbnb/new',(req,res)=>{
     res.render('new.ejs');
+})
+
+// Delete Route
+app.delete('/Airbnb/:id',async(req,res)=>{
+    let {id}=req.params;
+    await Listing.findByIdAndDelete(id);
+    res.redirect('/Airbnb/Home');
+})
+
+app.post('/Airbnb/Home',async(req,res)=>{
+    const newListing=new createListing(req.body);
+    await Listing.insertOne(newListing);
+    res.redirect('/Airbnb/Home');
 })
 
 connectDB()
